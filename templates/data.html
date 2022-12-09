@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data</title>
+</head>
+<body>
+    <h1>Employees</h1>
+    <ul>
+    {% for employee in employees %}
+        <li>{{ employee.first_name }} {{ employee.last_name }} ({{ employee.department.name }})</li>
+    {% endfor %}
+    </ul>
+
+    <h1>Departments</h1>
+    <ul>
+    {% for department in departments %}
+        <li>{{ department.name }}</li>
+    {% endfor %}
+    </ul>
+
+    <h1>Tasks</h1>
+    <ul>
+    {% for task in tasks %}
+        <li>
+            {{ task.employee.first_name }} {{ task.employee.last_name }}: {{ task.description }} (due {{ task.due_date }})
+            <ul>
+            {% for department in task.departments.all %}
+                <li>{{ department.name }}</li>
+            {% endfor %}
+            </ul>
+            <ul>
+            {% for comment in task.comment_set.all %}
+                <li>{{ comment.employee.first_name }} {{ comment.employee.last_name }}: {{ comment.comment }}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <h1>Add an Employee</h1>
+    <form action="{% url 'all data' %}" method="post">
+        {% csrf_token %}
+        {{ employee_form }}
+        <input type="submit" value="Add Employee">
+    </form>
+
+    <h1>Add a Department</h1>
+    <form action="{% url 'all data' %}" method="post">
+        {% csrf_token %}
+        {{ department_form }}
+        <input type="submit" value="Add Department">
+    </form>
+
+    <h1>Add a Task</h1>
+    <form action="{% url 'all data' %}" method="post">
+        {% csrf_token %}
+        {{ task_form }}
+        <input type="submit" value="Add Task">
+    </form>
+
+    <h1>Add a Comment</h1>
+    <form action="{% url 'all data' %}" method="post">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit" value="Add Comment">
+    </form>
+</body>
+</html>
